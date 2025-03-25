@@ -31,8 +31,8 @@ public final class Clicker extends Application
     private static final String PREFIX_AUTO_CLICKERS = "Auto Clickers: ";
 
     private static final String TEXT_BUTTON_CLICK        = "Click";
-    private static final String TEXT_BUTTON_UPGRADE      = "Upgrade (+1 Power)";
-    private static final String TEXT_BUTTON_AUTO_CLICKER = "Buy Auto Clicker (-10)";
+    private static final String TEXT_BUTTON_UPGRADE      = "Upgrade (+%d Power, Costs %d)";
+    private static final String TEXT_BUTTON_AUTO_CLICKER = "Buy Auto Clicker (Costs %d)";
 
 
     /**
@@ -53,9 +53,13 @@ public final class Clicker extends Application
         final Label powerLabel;
         final Label autoClickerLabel;
 
-        final Button clickButton;
-        final Button upgradeButton;
-        final Button autoClickerButton;
+        final String buttonTextClick;
+        final String buttonTextUpgrade;
+        final String buttonTextAutoClicker;
+
+        final Button buttonClick;
+        final Button buttonUpgrade;
+        final Button buttonAutoClicker;
 
         final KeyFrame frame;
         final Duration interval;
@@ -64,8 +68,13 @@ public final class Clicker extends Application
         final VBox  layout;
         final Scene scene;
 
+        final int upgradePowerIncrement;
+        final int upgradeCost;
+        final int autoClickerCost;
+
         logic   = new GameLogic();
         invoker = new ButtonInvoker();
+
 
         curScore        = logic.getCurScore();
         curClickPower   = logic.getCurClickPower();
@@ -75,12 +84,21 @@ public final class Clicker extends Application
         powerLabel       = new Label(PREFIX_POWER + curClickPower);
         autoClickerLabel = new Label(PREFIX_AUTO_CLICKERS + curAutoClickers);
 
-        clickButton       = new Button(TEXT_BUTTON_CLICK);
-        upgradeButton     = new Button(TEXT_BUTTON_UPGRADE);
-        autoClickerButton = new Button(TEXT_BUTTON_AUTO_CLICKER);
+
+        upgradePowerIncrement = GameLogic.getPowerIncrement();
+        upgradeCost = GameLogic.getPowerIncrementCost();
+        autoClickerCost = GameLogic.getAutoClickerCost();
+
+        buttonTextClick = TEXT_BUTTON_CLICK;
+        buttonTextUpgrade = String.format(TEXT_BUTTON_UPGRADE, upgradePowerIncrement, upgradeCost);
+        buttonTextAutoClicker = String.format(TEXT_BUTTON_AUTO_CLICKER, autoClickerCost);
+
+        buttonClick       = new Button(buttonTextClick);
+        buttonUpgrade     = new Button(buttonTextUpgrade);
+        buttonAutoClicker = new Button(buttonTextAutoClicker);
 
         // Click button actions
-        clickButton.setOnAction(e ->
+        buttonClick.setOnAction(e ->
                                 {
                                     final Command commandClick;
                                     commandClick = new CommandClick(logic);
@@ -94,7 +112,7 @@ public final class Clicker extends Application
                                 });
 
         // Upgrade button actions
-        upgradeButton.setOnAction(e ->
+        buttonUpgrade.setOnAction(e ->
                                   {
                                       final Command commandUpgrade;
                                       commandUpgrade = new CommandUpgrade(logic);
@@ -108,7 +126,7 @@ public final class Clicker extends Application
                                   });
 
         // Auto-clicker purchase button actions
-        autoClickerButton.setOnAction(e ->
+        buttonAutoClicker.setOnAction(e ->
                                       {
                                           final Command commandAutoClicker;
                                           commandAutoClicker = new CommandAutoClicker(logic);
@@ -142,9 +160,9 @@ public final class Clicker extends Application
                           scoreLabel,
                           powerLabel,
                           autoClickerLabel,
-                          clickButton,
-                          upgradeButton,
-                          autoClickerButton);
+                          buttonClick,
+                          buttonUpgrade,
+                          buttonAutoClicker);
 
         scene = new Scene(layout,
                           WINDOW_WIDTH,

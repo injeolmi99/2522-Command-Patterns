@@ -6,7 +6,6 @@ import ClickerGame.Commands.CommandUpgrade;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,9 +21,19 @@ import javafx.util.Duration;
  */
 public final class Clicker extends Application
 {
-    private static final int WINDOW_WIDTH     = 300;
-    private static final int WINDOW_HEIGHT    = 250;
-    private static final int AUTO_INTERVAL_MS = 1000;
+    private static final int    WINDOW_WIDTH     = 300;
+    private static final int    WINDOW_HEIGHT    = 250;
+    private static final int    AUTO_INTERVAL_MS = 1000;
+    private static final String SCENE_TITLE      = "Clicker Game";
+
+    private static final String PREFIX_SCORE         = "Score: ";
+    private static final String PREFIX_POWER         = "Click Power: ";
+    private static final String PREFIX_AUTO_CLICKERS = "Auto Clickers: ";
+
+    private static final String TEXT_BUTTON_CLICK        = "Click";
+    private static final String TEXT_BUTTON_UPGRADE      = "Upgrade (+1 Power)";
+    private static final String TEXT_BUTTON_AUTO_CLICKER = "Buy Auto Clicker (-10)";
+
 
     /**
      * Launches the GUI window and sets up game elements.
@@ -35,6 +44,10 @@ public final class Clicker extends Application
     {
         final GameLogic     logic;
         final ButtonInvoker invoker;
+
+        final int curScore;
+        final int curClickPower;
+        final int curAutoClickers;
 
         final Label scoreLabel;
         final Label powerLabel;
@@ -51,15 +64,20 @@ public final class Clicker extends Application
         final VBox  layout;
         final Scene scene;
 
-        logic            = new GameLogic();
-        invoker          = new ButtonInvoker();
-        scoreLabel       = new Label("Score: 0");
-        powerLabel       = new Label("Click Power: 1");
-        autoClickerLabel = new Label("Auto Clickers: 0");
+        logic   = new GameLogic();
+        invoker = new ButtonInvoker();
 
-        clickButton       = new Button("Click");
-        upgradeButton     = new Button("Upgrade (+1 Power)");
-        autoClickerButton = new Button("Buy Auto Clicker (-10)");
+        curScore        = logic.getCurScore();
+        curClickPower   = logic.getCurClickPower();
+        curAutoClickers = logic.getCurAutoClickers();
+
+        scoreLabel       = new Label(PREFIX_SCORE + curScore);
+        powerLabel       = new Label(PREFIX_POWER + curClickPower);
+        autoClickerLabel = new Label(PREFIX_AUTO_CLICKERS + curAutoClickers);
+
+        clickButton       = new Button(TEXT_BUTTON_CLICK);
+        upgradeButton     = new Button(TEXT_BUTTON_UPGRADE);
+        autoClickerButton = new Button(TEXT_BUTTON_AUTO_CLICKER);
 
         // Click button actions
         clickButton.setOnAction(e ->
@@ -133,7 +151,7 @@ public final class Clicker extends Application
                           WINDOW_HEIGHT);
 
 
-        primaryStage.setTitle("Clicker Game");
+        primaryStage.setTitle(SCENE_TITLE);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -151,9 +169,9 @@ public final class Clicker extends Application
                              final Label autoLabel,
                              final GameLogic logic)
     {
-        scoreLabel.setText("Score: " + logic.getCurScore());
-        powerLabel.setText("Click Power: " + logic.getCurClickPower());
-        autoLabel.setText("Auto Clickers: " + logic.getAutoClickers());
+        scoreLabel.setText(PREFIX_SCORE + logic.getCurScore());
+        powerLabel.setText(PREFIX_POWER + logic.getCurClickPower());
+        autoLabel.setText(PREFIX_AUTO_CLICKERS + logic.getCurAutoClickers());
     }
 
     /**

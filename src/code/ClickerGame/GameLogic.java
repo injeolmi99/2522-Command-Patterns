@@ -102,7 +102,7 @@ public final class GameLogic
      *
      * @return current number of auto clickers
      */
-    public int getAutoClickers()
+    public int getCurAutoClickers()
     {
         return curAutoClickers;
     }

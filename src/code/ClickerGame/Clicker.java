@@ -21,8 +21,9 @@ import javafx.util.Duration;
  */
 public final class Clicker extends Application
 {
-    private static final int    WINDOW_WIDTH     = 300;
-    private static final int    WINDOW_HEIGHT    = 250;
+    private static final int    WINDOW_WIDTH     = 400;
+    private static final int    WINDOW_HEIGHT    = 475;
+    private static final int    SPACING_PX       = 10;
     private static final int    AUTO_INTERVAL_MS = 1000;
     private static final String SCENE_TITLE      = "Clicker Game";
 
@@ -98,6 +99,7 @@ public final class Clicker extends Application
         buttonAutoClicker = new Button(buttonTextAutoClicker);
 
         // Click button actions
+        buttonClick.setId("buttonClick");
         buttonClick.setOnAction(e ->
                                 {
                                     final Command commandClick;
@@ -156,7 +158,7 @@ public final class Clicker extends Application
         autoTimeline.play();
 
 
-        layout = new VBox(10,
+        layout = new VBox(SPACING_PX,
                           scoreLabel,
                           powerLabel,
                           autoClickerLabel,
@@ -167,6 +169,11 @@ public final class Clicker extends Application
         scene = new Scene(layout,
                           WINDOW_WIDTH,
                           WINDOW_HEIGHT);
+
+        scene.getStylesheets()
+             .add(getClass()
+                          .getResource("styles.css")
+                          .toExternalForm());
 
 
         primaryStage.setTitle(SCENE_TITLE);

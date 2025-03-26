@@ -12,7 +12,10 @@ public final class GameLogic
     private static final int BASE_AUTO_CLICKERS = 0;
     private static final int BASE_POWER         = 1;
     private static final int POWER_INCREMENT    = 1;
-    private static final int AUTO_CLICKER_COST  = 10;
+
+    private static final int POWER_INCREMENT_COST = 1;
+    private static final int AUTO_CLICKER_COST    = 10;
+
 
     private int curScore;
     private int curClickPower;
@@ -54,7 +57,12 @@ public final class GameLogic
      */
     public void upgradeClickPower()
     {
-        curClickPower += POWER_INCREMENT;
+        if(curScore >= POWER_INCREMENT_COST)
+        {
+            curScore -= POWER_INCREMENT_COST;
+            curClickPower += POWER_INCREMENT;
+
+        }
     }
 
     /**
@@ -102,8 +110,39 @@ public final class GameLogic
      *
      * @return current number of auto clickers
      */
-    public int getAutoClickers()
+    public int getCurAutoClickers()
     {
         return curAutoClickers;
     }
+
+    /**
+     * Getter for the upgrade power increment amount.
+     *
+     * @return upgrade power increment amount.
+     */
+    static int getPowerIncrement()
+    {
+        return POWER_INCREMENT;
+    }
+
+    /**
+     * Getter for the upgrade power increment cost.
+     *
+     * @return upgrade power increment cost.
+     */
+    static int getPowerIncrementCost()
+    {
+        return POWER_INCREMENT_COST;
+    }
+
+    /**
+     * Getter for the auto clicker cost.
+     *
+     * @return auto clicker cost.
+     */
+    static int getAutoClickerCost()
+    {
+        return AUTO_CLICKER_COST;
+    }
+
 }

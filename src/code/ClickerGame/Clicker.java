@@ -24,6 +24,7 @@ public final class Clicker extends Application
     private static final int    WINDOW_WIDTH     = 400;
     private static final int    WINDOW_HEIGHT    = 475;
     private static final int    SPACING_PX       = 10;
+
     private static final int    AUTO_INTERVAL_MS = 1000;
     private static final String SCENE_TITLE      = "Clicker Game";
 
@@ -76,7 +77,6 @@ public final class Clicker extends Application
         logic   = new GameLogic();
         invoker = new ButtonInvoker();
 
-
         curScore        = logic.getCurScore();
         curClickPower   = logic.getCurClickPower();
         curAutoClickers = logic.getCurAutoClickers();
@@ -98,7 +98,6 @@ public final class Clicker extends Application
         buttonUpgrade     = new Button(buttonTextUpgrade);
         buttonAutoClicker = new Button(buttonTextAutoClicker);
 
-        // Click button actions
         buttonClick.setId("buttonClick");
         buttonClick.setOnAction(e ->
                                 {
